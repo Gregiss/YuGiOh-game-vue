@@ -65,7 +65,7 @@
                     <h1>{{ enemyPlayer.life }} <br>  <span v-if="attack == 1">Comprando</span> </h1>
              </div>
             <div class="background"></div>
-            <div class="myDropCard drop" @click="atackDireto">
+            <div class="myDropCard drop">
                 <div v-for="card in myDropCard" v-for="card in enemyDropCard" class="card" style="background: transparent !important;" v-for="card in myHand"
                     v-bind:class="{ selectCard: card.selected }" 
                     @mouseenter="cardOver(card)"
@@ -80,7 +80,7 @@
                 </div>
                 </div>
             </div>
-            <div class="enemyDropCard drop">
+            <div class="enemyDropCard drop" @click="atackDireto">
                 <div v-for="card in enemyDropCard" class="card" style="background: transparent !important;" v-for="card in myHand"
                     v-bind:class="{ selectCard: card.selected }"
                     @mouseenter="cardOver(card)"

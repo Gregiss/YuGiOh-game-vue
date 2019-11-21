@@ -136,7 +136,7 @@ const app = new Vue({
             this.bugFix()
                 var randomCard = Math.floor(Math.random() * this.cards.length)
                 for(var i = 0; i < this.myHand.length; i++){
-                    while(this.myHand[i] == this.cards[randomCard]){
+                    while(this.myHand[i] == this.enemyHand[randomCard]){
                         while(this.enemyHand[i] == this.cards[randomCard]){
                             randomCard = Math.floor(Math.random() * this.cards.length)
                         }
@@ -150,7 +150,7 @@ const app = new Vue({
             this.bugFix()
             var randomCard = Math.floor(Math.random() * this.cards.length)
             for(var i = 0; i < this.enemyHand.length; i++){
-            while(this.myHand[i] == this.cards[randomCard]){
+            while(this.myHand[i] == this.enemyHand[randomCard]){
                 randomCard = Math.floor(Math.random() * this.cards.length)
                 while(this.enemyHand[i] == this.cards[randomCard]){
                     randomCard = Math.floor(Math.random() * this.cards.length)
@@ -244,7 +244,7 @@ const app = new Vue({
                     this.myDropCard[0].die = true
                     setTimeout(() => this.cardsDie(1) , 1900)
                 }
-                this.player.life -= this.myCardSelected.ataque - this.enemyCardSelected.ataque
+                this.player.life -= this.myCardSelected.ataque + this.enemyCardSelected.ataque
             }
             }
             this.vez = 0
@@ -261,6 +261,7 @@ const app = new Vue({
             }
             const idCardMorre = this.myDropCard.indexOf(this.myCardSelected)
             const idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
+            console.log(idCard +""+ idCardMorre)
             if(this.enemyDropCard[idCard].ataque < this.myCardSelected.ataque){
                 this.enemyDropCard[idCard].die = true
                 setTimeout(() =>this.cardsDie(0) , 1900)
@@ -286,6 +287,9 @@ const app = new Vue({
                     if(this.attack == 0){
                         if(this.enemyDropCard.length == 0){
                             this.enemyPlayer.life -= this.myCardSelected.ataque
+                            this.vez = 1
+                            this.attack = 1
+                            this.playBot()
                         }
                     }
                 }
@@ -294,11 +298,11 @@ const app = new Vue({
             cardsDie(quem){
                 if(quem == 0){
                     var idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
-                    this.enemyPlayer.life -= this.enemyCardSelected.ataque - this.myCardSelected.ataque
+                    this.enemyPlayer.life -= this.enemyCardSelected.ataque + this.myCardSelected.ataque
                     this.enemyDropCard.splice(idCard, 1)
                 } else if(quem == 1){
                     var idCard = this.myDropCard.indexOf(this.myCardSelected)
-                    this.player.life -= this.enemyCardSelected.ataque - this.myCardSelected.ataque
+                    this.player.life -= this.enemyCardSelected.ataque + this.myCardSelected.ataque
                     this.myDropCard.splice(idCard, 1)
                 } else if(quem == 2){
                     var idCardMorre = this.myDropCard.indexOf(this.myCardSelected)

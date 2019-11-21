@@ -384,3 +384,7 @@ button:focus{
     transform: scale(0.9) translateY(-5px) !important;
     z-index: 500;
 }
+
+.vezDe{
+    border: 2px solid #fff;
+}

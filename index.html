@@ -54,12 +54,12 @@
         </div>
 
         <div class="duelo" v-if="where.name == 'duel'">
-            <div class="myAvatar avatar">
+            <div class="myAvatar avatar" v-bind:class="{ vezDe: vez == 0 }">
                 <div class="trans"></div>
                 <img src="https://uploads3.yugioh.com/character/3/detail/detail/yamiyugi-l.png?1371744397" alt="">
                 <h1>{{ player.life }}</h1>
             </div>
-            <div class="myAvatar enemyAvatar avatar">
+            <div class="myAvatar enemyAvatar avatar" v-bind:class="{ vezDe: vez == 1 }">
                     <div class="trans"></div>
                     <img :src="enemyDuelo.image" alt="">
                     <h1>{{ enemyPlayer.life }}</h1>

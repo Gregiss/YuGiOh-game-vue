@@ -1,3 +1,5 @@
+var destroy = new Audio("./assets/audio/destroy2.mp3" );
+
 const app = new Vue({
     el: "#app",
     data:{
@@ -170,7 +172,6 @@ const app = new Vue({
         },
         playBot(){
             this.bugFix()
-            this.myCardSelected = {}
             this.quantidadeDeJogadas++
             this.attack = -1
             if(this.vez == 1){
@@ -183,8 +184,8 @@ const app = new Vue({
             setTimeout(() => this.enemyDropCard.push(botCardPlay) , 300)
             setTimeout(() => this.comprarCardMe() , 300)
             setTimeout(() => this.comprarCardBot() , 300)
-            if(this.quantidadeDeJogadas >= 3){
-            setTimeout(() => this.botAttackCard() , 600)
+            if(this.quantidadeDeJogadas > 2){
+            setTimeout(() => this.botAttackCard() , 1500)
             } else{
                 this.vez = 0
                 this.attack = 0
@@ -193,95 +194,94 @@ const app = new Vue({
         },
         selectAttack(card){
             this.bugFix()
+            const idCard = this.myDropCard.indexOf(card)
+            this.myCardSelected = this.myDropCard[idCard]
             if(this.attack == 0){
             this.vez = 0
-            const idCard = this.myDropCard.indexOf(card)
             for(var i = 0; i < this.myDropCard.length; i++){
                 this.myDropCard[i].selected = false
             }
             this.myDropCard[idCard].selected = true
-            this.myCardSelected = this.myDropCard[idCard]
             }
         },
         botAttackCard(){
             this.bugFix()
             if(this.enemyDropCard.length == 0){
-            } else{
-                this.vez = 0
-                this.attack = 0
                 return
             }
-            var cartaId = Math.floor(Math.random() * this.enemyDropCard.length)
-            var myCardId = Math.floor(Math.random() * this.myDropCard.length)
-            this.myCardSelected = this.myCardSelected[myCardId]
-            this.enemyCardSelected = this.myDropCard[cartaId]
+            var cartaId = 0
+            if(this.myDropCard.length > 0){
+                var myCardId = Math.floor(Math.random() * this.myDropCard.length)
+                this.myCardSelected = this.myCardSelected[myCardId]
+            } else{
+                var myCardId = 0
+            }
+            console.log(cartaId + myCardId)
+            this.enemyCardSelected = this.enemyDropCard[cartaId]
             if(this.myDropCard.length == 0){
                 if(this.enemyDropCard.length == 0){
                     this.vez = 0
                     this.attack = 0
                 } else{
-                    this.player.life -= this.enemyCardSelected[cartaId].ataque
-                    this.attack = 0
-                    this.vez = 0
+                    this.player.life -= this.enemyCardSelected.ataque
                 }
             } else{
-                if(this.enemyDropCard[cartaId].ataque < this.myCardSelected.ataque){
-                    var cartaId = Math.floor(Math.random() * this.enemyDropCard.length)
-                    var myCardId = Math.floor(Math.random() * this.myDropCard.length)
-                    this.enemyDropCard[cartaId].die = true
-                    setTimeout(() =>this.cardsDie(0) , 600)
-                } else if(this.enemyDropCard[cartaId].ataque == this.myCardSelected.ataque){
-                    var cartaId = Math.floor(Math.random() * this.enemyDropCard.length)
-                    var myCardId = Math.floor(Math.random() * this.myDropCard.length)
-                    setTimeout(() => this.cardsDie(2) , 600)
-                    this.enemyDropCard[cartaId].die = true
-                    this.myDropCard[myCardId].die = true
-                } else{
-                    var cartaId = Math.floor(Math.random() * this.enemyDropCard.length)
-                    var myCardId = Math.floor(Math.random() * this.myDropCard.length)
-                    var idCard = this.myDropCard.indexOf(this.myCardSelected)
-                    this.myDropCard[myCardId].die = true
-                    setTimeout(() => this.cardsDie(1) , 600)
+                if(this.enemyDropCard.length == 0){
+                    return
                 }
+             else{
+                destroy.play()
+                this.enemyCardSelected = this.enemyDropCard[0]
+                this.myCardSelected = this.myDropCard[0]
+                if(this.enemyDropCard[0].ataque < this.myDropCard[0].ataque){
+                    this.enemyDropCard[0].die = true
+                    setTimeout(() =>this.cardsDie(0) , 1900)
+                } else if(this.enemyDropCard[0].ataque == this.myDropCard[0].ataque){
+                    setTimeout(() => this.cardsDie(2) , 1900)
+                    this.enemyDropCard[0].die = true
+                    this.myDropCard[0].die = true
+                } else{
+                    this.myDropCard[0].die = true
+                    setTimeout(() => this.cardsDie(1) , 1900)
+                }
+                this.player.life -= this.myCardSelected.ataque - this.enemyCardSelected.ataque
+            }
             }
             this.vez = 0
             this.attack = 0
         },
         attackCard(card){
-            this.bugFix()
             this.enemyCardSelected = card
+            if(this.myCardSelected !== null && this.enemyCardSelected !== null){
+            destroy.play()  
             if(this.vez == 0){
             if(this.attack == 0){
             for(var i = 0; i < this.myDropCard.length; i++){
                 this.myDropCard[i].selected = false
             }
-            var idCardMorre = this.myDropCard.indexOf(this.myCardSelected)
-            var idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
+            const idCardMorre = this.myDropCard.indexOf(this.myCardSelected)
+            const idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
             if(this.enemyDropCard[idCard].ataque < this.myCardSelected.ataque){
-                var idCardMorre = this.myDropCard.indexOf(this.myCardSelected)
-                var idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
                 this.enemyDropCard[idCard].die = true
-                setTimeout(() =>this.cardsDie(0) , 600)
+                setTimeout(() =>this.cardsDie(0) , 1900)
             } else if(this.enemyDropCard[idCard].ataque == this.myCardSelected.ataque){
-                var idCardMorre = this.myDropCard.indexOf(this.myCardSelected)
-                var idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
                 this.enemyDropCard[idCard].die = true
                 this.myDropCard[idCardMorre].die = true
-                setTimeout(() => this.cardsDie(2) , 600)
+                setTimeout(() => this.cardsDie(2) , 1900)
             } else{
-                var idCardMorre = this.myDropCard.indexOf(this.myCardSelected)
-                var idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
-                this.myDropCard[idCard].die = true
-                setTimeout(() => this.cardsDie(1) , 600)
+                this.myDropCard[idCardMorre].die = true
+                setTimeout(() => this.cardsDie(1) , 1900)
             }
             this.vez = 1
             this.attack = 1
             setTimeout(() => this.playBot() , 1600)
             }
             }
+            }
             },
             atackDireto(){
                 this.bugFix()
+                if(this.myCardSelected !== null){
                 if(this.vez == 0){
                     if(this.attack == 0){
                         if(this.enemyDropCard.length == 0){
@@ -289,16 +289,16 @@ const app = new Vue({
                         }
                     }
                 }
+            }
             },
             cardsDie(quem){
-                this.bugFix()
                 if(quem == 0){
                     var idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
-                    this.enemyPlayer.life -= this.myCardSelected.ataque
+                    this.enemyPlayer.life -= this.enemyCardSelected.ataque - this.myCardSelected.ataque
                     this.enemyDropCard.splice(idCard, 1)
                 } else if(quem == 1){
-                    var idCard = this.enemyDropCard.indexOf(this.enemyCardSelected)
-                    this.player.life -= this.enemyCardSelected.ataque
+                    var idCard = this.myDropCard.indexOf(this.myCardSelected)
+                    this.player.life -= this.enemyCardSelected.ataque - this.myCardSelected.ataque
                     this.myDropCard.splice(idCard, 1)
                 } else if(quem == 2){
                     var idCardMorre = this.myDropCard.indexOf(this.myCardSelected)

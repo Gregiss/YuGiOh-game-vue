@@ -147,6 +147,12 @@ button:focus{
     width: 100%;
     height: 100%;
     background: #000;
+    -webkit-transform: rotateX(20deg) rotateY(-1deg) rotateZ(-1deg) translateX(5px) translateY(-6px) translateZ(-4px) skewX(-10deg) skewY(2deg);
+    -moz-transform: rotateX(20deg) rotateY(-1deg) rotateZ(-1deg) translateX(5px) translateY(-6px) translateZ(-4px) skewX(-10deg) skewY(2deg);
+    -ms-transform: rotateX(20deg) rotateY(-1deg) rotateZ(-1deg) translateX(5px) translateY(-6px) translateZ(-4px) skewX(-10deg) skewY(2deg);
+    -o-transform: rotateX(20deg) rotateY(-1deg) rotateZ(-1deg) translateX(5px) translateY(-6px) translateZ(-4px) skewX(-10deg) skewY(2deg);
+    transform:  rotateX(20deg) rotateY(-1deg) rotateZ(-1deg) translateX(5px) translateY(-6px) translateZ(-4px) skewX(-10deg) skewY(2deg);
+    background-repeat: no-repeat;
 }
 
 .duelo .myHand{
@@ -378,6 +384,11 @@ button:focus{
     bottom: 0%;
     color: #fff;
     text-shadow: 1px 1px rgba(0,0,0,.40);
+}
+
+.myAvatar span{
+    font-size: 10px;
+    margin-top: -120px;
 }
 
 .selectCard{

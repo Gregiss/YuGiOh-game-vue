@@ -57,12 +57,12 @@
             <div class="myAvatar avatar" v-bind:class="{ vezDe: vez == 0 }">
                 <div class="trans"></div>
                 <img src="https://uploads3.yugioh.com/character/3/detail/detail/yamiyugi-l.png?1371744397" alt="">
-                <h1>{{ player.life }}</h1>
+                <h1>{{ player.life }} <br> <span v-if="attack == -1 && vez == 0">Jogue uma carta</span> <span v-if="attack == 0">Ataque</span> <span v-if="attack == 1 && vez == 1">Aguarde sua vez</span> </h1>
             </div>
             <div class="myAvatar enemyAvatar avatar" v-bind:class="{ vezDe: vez == 1 }">
                     <div class="trans"></div>
                     <img :src="enemyDuelo.image" alt="">
-                    <h1>{{ enemyPlayer.life }}</h1>
+                    <h1>{{ enemyPlayer.life }} <br>  <span v-if="attack == 1">Comprando</span> </h1>
              </div>
             <div class="background"></div>
             <div class="myDropCard drop" @click="atackDireto">

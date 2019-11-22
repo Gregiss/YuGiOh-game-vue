@@ -111,6 +111,20 @@ const app = new Vue({
             const idCard = this.myHand.indexOf(card)
             this.hoverCard = card
         },
+        cardOver(card, a){
+            for(var i = 0; i < this.enemyDropCard.length; i++){
+                this.enemyDropCard[i].die = false
+                this.enemyDropCard[i].selected = false
+            }
+            const idCard = this.myHand.indexOf(card)
+            this.hoverCard = card
+            this.myHand[idCard].selected = true
+        },
+        cardOut(card, a){
+            const idCard = this.myHand.indexOf(card)
+            this.hoverCard = card
+            this.myHand[idCard].selected = false
+        },
         playCard(card){
             this.bugFix()
             if(this.vez == 0){
@@ -168,6 +182,10 @@ const app = new Vue({
             for(var i = 0; i < this.enemyDropCard.length; i++){
                 this.enemyDropCard[i].die = false
                 this.enemyDropCard[i].selected = false
+            }
+            for(var i = 0; i < this.myHand.length; i++){
+                this.myHand[i].die = false
+                this.myHand[i].selected = false
             }
         },
         playBot(){

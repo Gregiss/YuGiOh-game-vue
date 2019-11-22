@@ -102,10 +102,10 @@
             <div class="myHand">
                 <center>
                 <div class="card" style="background: transparent !important;" v-for="card in myHand"
-                v-bind:class="{ selected: card.selected }">
+                v-bind:class="{ selected: card.selected }" :key="card">
                 <div class="card"
-                @mouseenter="cardOver(card)"
-                @mouseleave="cardOut(card)"
+                @mouseenter="cardOver(card, true)"
+                @mouseleave="cardOut(card, true)"
                 @click="playCard(card)"
                 v-bind:class="{ animateCard: card.moved }" >
                 <div class="trans"></div>
